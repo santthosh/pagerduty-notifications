@@ -8,25 +8,35 @@ var AWS = require('aws-sdk');
 var Q = require('q');
 var jade = require('jade');
 var moment = require('moment');
+var Set = require('collections/set');
 
 exports.handler = function(event, context) {
-    var html,title;
-    var titleTemplate = "[PagerDuty] incident #{message.incident_number} for #{message.service.name}";
+    var html,title,literal,incidents = new Set([]),services = new Set([]);
 
     if(event.messages) {
         event.messages.map(function(message){
-            var time = moment(message.data.incident.created_on).format("dddd, MMMM Do YYYY, h:mm:ss A");
-            var options = {
-                "message" : message.data.incident,
-                "time" : time
-            };
-            var contentFn = jade.compileFile("templates/"+message.type+".jade",{});
-            html = contentFn(options);
-
-            var titleFn = jade.compile(titleTemplate,{});
-            title = titleFn(options);
+            incidents.add(message.data.incident.incident_number);
+            services.add(message.data.incident.service.name);
         });
-    }
+
+        literal = incidents.length > 1 ? "incidents" : "incident";
+
+        var options = {
+            "messages" : event.messages,
+            "meta": {
+                "literal" : literal,
+                "incidents" : incidents.toArray().join(','),
+                "services": services.toArray().join(',')
+            }
+        };
+
+        var contentFn = jade.compileFile("templates/body.jade",{});
+        html = contentFn(options);
+
+        var titleFn = jade.compileFile("templates/subject.jade",{});
+        title = titleFn(options);
+
+    };
     var ses = new AWS.SES();
 
     var params = {

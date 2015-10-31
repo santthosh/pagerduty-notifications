@@ -1,0 +1,21 @@
+doctype html
+html(lang="en")
+  body
+    each message in messages
+        h3 Incident #{message.data.incident.incident_number} was #{message.data.incident.status} at #{message.data.incident.last_status_change_on}
+        if message.data.incident.assigned_to_user && message.data.incident.assigned_to_user != "null"
+            div The incident is currently assigned to <a href="mailto:#{message.data.incident.assigned_to_user.email}">#{message.data.incident.assigned_to_user.name}</a>
+            br
+        if message.data.incident.acknowledgers != null
+            div Following people have acknowledged the incident
+            each acknowledge in message.data.incident.acknowledgers
+                div <a href="mailto:#{acknowledge.object.email}">#{acknowledge.object.name}</a> acknowledge the message at #{acknowledge.at}
+        if message.data.incident.resolved_by_user
+            div The incident was resolved by <a href="mailto:#{message.data.incident.resolved_by_user.email}">#{message.data.incident.resolved_by_user.name}</a>
+            br
+
+        div #{message.data.incident.trigger_summary_data.subject}.
+        hr
+        div More details on the incident can be found <a href=#{message.data.incident.trigger_details_html_url}>here</a>
+        br
+        br
