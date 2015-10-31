@@ -7,9 +7,9 @@ html(lang="en")
             div The incident is currently assigned to <a href="mailto:#{message.data.incident.assigned_to_user.email}">#{message.data.incident.assigned_to_user.name}</a>
             br
         if message.data.incident.acknowledgers != null
-            div Following people have acknowledged the incident
             each acknowledge in message.data.incident.acknowledgers
-                div <a href="mailto:#{acknowledge.object.email}">#{acknowledge.object.name}</a> acknowledge the message at #{acknowledge.at}
+                div <a href="mailto:#{acknowledge.object.email}">#{acknowledge.object.name}</a> acknowledged the message at #{acknowledge.at}
+            br
         if message.data.incident.resolved_by_user
             div The incident was resolved by <a href="mailto:#{message.data.incident.resolved_by_user.email}">#{message.data.incident.resolved_by_user.name}</a>
             br
