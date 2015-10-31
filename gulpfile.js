@@ -23,6 +23,11 @@ gulp.task('js', function() {
         .pipe(gulp.dest('dist/'))
 });
 
+gulp.task('templates', function() {
+    return gulp.src('templates/**')
+        .pipe(gulp.dest('./dist/templates'));
+});
+
 // Install npm packages to dist, ignoring devDependencies.
 gulp.task('npm', function() {
     return gulp.src('./package.json')
@@ -106,6 +111,7 @@ gulp.task('default', function(callback) {
     return runSequence(
         'clean',
         'npm',
+        'templates',
         'js',
         'zip',
         'upload',
