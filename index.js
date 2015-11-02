@@ -57,7 +57,7 @@ exports.handler = function(event, context) {
             }
         },
         Source: config.email.from,
-        ReplyToAddresses: config.email.reply-to
+        ReplyToAddresses: config.email.reply
     };
     ses.sendEmail(params, function(err, data) {
         if (err) {
