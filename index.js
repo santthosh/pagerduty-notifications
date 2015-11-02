@@ -13,6 +13,7 @@ var config = require("./config.json");
 
 exports.handler = function(event, context) {
     var html,title,literal,incidents = new Set([]),services = new Set([]);
+    console.log(JSON.stringify(config));
 
     if(event.messages) {
         event.messages.map(function(message){
