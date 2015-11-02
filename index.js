@@ -9,6 +9,7 @@ var Q = require('q');
 var jade = require('jade');
 var moment = require('moment');
 var Set = require('collections/set');
+var config = require("./config.json");
 
 exports.handler = function(event, context) {
     var html,title,literal,incidents = new Set([]),services = new Set([]);
@@ -35,15 +36,12 @@ exports.handler = function(event, context) {
 
         var titleFn = jade.compileFile("templates/subject.jade",{});
         title = titleFn(options);
-
-    };
+    }
     var ses = new AWS.SES();
 
     var params = {
         Destination: {
-            ToAddresses: [
-                'sselvadurai@appirio.com'
-            ]
+            ToAddresses: config.email.to
         },
         Message: {
             Body: {
@@ -57,10 +55,8 @@ exports.handler = function(event, context) {
                 Charset: 'UTF-8'
             }
         },
-        Source: 'technology+pagerduty@appirio.com',
-        ReplyToAddresses: [
-            'technology+pagerduty@appirio.com'
-        ]
+        Source: config.email.from,
+        ReplyToAddresses: config.email.reply-to
     };
     ses.sendEmail(params, function(err, data) {
         if (err) {
