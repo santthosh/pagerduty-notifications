@@ -18,7 +18,7 @@ gulp.task('clean', function(cb) {
 });
 
 gulp.task('js', function() {
-    return gulp.src(['index.js'],{'base':'.'})
+    return gulp.src(['index.js','config.json'],{'base':'.'})
         .pipe(gulp.dest('dist/'))
 });
 
