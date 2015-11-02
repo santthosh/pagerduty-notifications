@@ -1,7 +1,6 @@
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var del = require('del');
-var rename = require('gulp-rename');
 var install = require('gulp-install');
 var zip = require('gulp-zip');
 var AWS = require('aws-sdk');

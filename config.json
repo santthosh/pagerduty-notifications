@@ -1,0 +1,9 @@
+{
+  "email": {
+    "from": "no-reply@domain.com",
+    "to": "joe@domain.com",
+    "reply-to": [
+      "support@domain.com"
+    ]
+  }
+}

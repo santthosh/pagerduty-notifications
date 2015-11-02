@@ -28,4 +28,3 @@ node_modules
 
 dist*
 .idea
-aws.json
